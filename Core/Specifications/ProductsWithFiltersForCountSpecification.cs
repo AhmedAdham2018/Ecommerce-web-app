@@ -1,0 +1,16 @@
+using Core.Entities;
+
+namespace Core.Specifications
+{
+    public class ProductsWithFiltersForCountSpecification : BaseSpecification<Product>
+    {
+        public ProductsWithFiltersForCountSpecification(ProductSpecificationParams prodParams) 
+            : base(x => 
+                (string.IsNullOrEmpty(prodParams.Search) || x.Name.ToLower().Contains(prodParams.Search)) &&
+                (!prodParams.BrandId.HasValue || x.ProductBrandId == prodParams.BrandId) &&
+                (!prodParams.TypeId.HasValue || x.ProductTypeId == prodParams.TypeId)
+            )
+        {
+        }
+    }
+}
