@@ -3,7 +3,7 @@
         <section class="col-3">
             <h5 class="text-info ml-3">Products Sort</h5>
             <select class="custom-select mb-3" 
-                (change) = "onSortProductSelected($event)">
+                (change)="onSortProductSelected($event.target)">
                 <option *ngFor="let sort of sortOptions" 
                     [value]="sort.value">
                     {{ sort.name }}

@@ -20,7 +20,7 @@ export class ShopComponent implements OnInit {
   totalCount: number;
 
   sortOptions = [
-    {name: 'Alphabetic' , value: 'name'},
+    {name: 'Alphabetical' , value: 'name'},
     {name: 'Price: Low - High' , value: 'priceAsc'},
     {name: 'Price: High - Low' , value: 'priceDesc'}
   ];
@@ -76,8 +76,8 @@ export class ShopComponent implements OnInit {
     this.shopParams.pageNumber = 1;
     this.getProducts()
   }
-  onSortProductSelected($e){
-    this.shopParams.sort = $e.target.value;
+  onSortProductSelected(sort: any){
+    this.shopParams.sort = sort.value;
     this.getProducts();
   }
 
