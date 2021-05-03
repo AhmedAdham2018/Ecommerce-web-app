@@ -1,6 +1,15 @@
-<app-nav-bar></app-nav-bar>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.7)" 
+             size = "large" 
+             color = "#fff" 
+             type = "ball-clip-rotate" 
+             [fullScreen] = "true">
+        <h4 style="color: white" > Loading... </h4>
+</ngx-spinner>
 
-<div style="margin-top: 90px;">
+<app-nav-bar></app-nav-bar>
+<app-header-section></app-header-section>
+
+<div>
     <router-outlet></router-outlet>
 </div>
 
