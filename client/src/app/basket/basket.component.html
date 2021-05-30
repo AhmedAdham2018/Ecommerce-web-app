@@ -55,11 +55,13 @@
                                             <div class="d-flex align-items-center" 
                                                 [class.justify-content-center]="!isBasket">
                                                 <i  class="fa fa-minus-circle text-warning mr-2"
+                                                    (click)="decrementBasketItemQuantity(item)"
                                                     style="cursor: pointer; font-size: 2em;"></i>
                                                 <span class="font-weight-bold" style="font-size: 1.5em;">
                                                     {{item.quantity}}
                                                 </span>
                                                 <i  class="fa fa-plus-circle text-warning mx-2"
+                                                    (click)="incrementBasketItemQuantity(item)"
                                                     style="cursor: pointer; font-size: 2em;"></i>
                                             </div>
                                         </td>
@@ -68,7 +70,9 @@
                                         </td>
                                         <td class="align-middle text-center">
                                             <a class="text-danger">
-                                                <i  class="fa fa-trash" style="font-size: 2em; cursor: pointer;"></i>
+                                                <i  class="fa fa-trash"
+                                                    style="font-size: 2em; cursor: pointer;"
+                                                    (click)="removeBasketItem(item)"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -80,8 +84,8 @@
                 <div class="row">
                     <div class="col-6 offset-6">
                         <app-total-order></app-total-order>
-                        <a routerLink="/checkout" 
-                           class="btn btn-outline-primary py-2 btn-block">
+                        <a class="btn btn-outline-warning py-2 btn-block"
+                           routerLink="/checkout" >
                             Proceed to checkout
                         </a>
                     </div>

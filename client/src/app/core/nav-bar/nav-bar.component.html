@@ -14,7 +14,32 @@
             <i class="fa fa-shopping-cart fa-2x mr-4 text-dark"></i>
             <div class="cart-num" *ngIf="(basket$ | async) as myBasket">{{ myBasket.items.length }}</div>
         </a>
-        <a class="btn btn-outline-secondary mr-2">LogIn</a>
-        <a class="btn btn-outline-secondary mr-3">SignUp</a>
+        <ng-container *ngIf="(currentUser$ | async) === null">
+          <a class="btn btn-outline-secondary mr-2"
+          routerLink="/account/login">Login</a>
+          <a class="btn btn-outline-secondary mr-3"
+          routerLink="/account/register">Register</a>
+        </ng-container>
+        <ng-container *ngIf="currentUser$ | async">
+          <div class="dropdown mr-5 ml-3" dropdown>
+            <a class="dropdown-toggle"
+               style="cursor: pointer;"
+               dropdownToggle>
+              <strong>Welcome {{(currentUser$ | async).displayName}}</strong>
+            </a>
+            <div class="dropdown-menu dropdown-right" style="cursor: pointer;" *dropdownMenu>
+              <a class="dropdown-item d-flex align-items-center py-2" routerLink="/basket">
+                <i class="fa fa-shopping-cart mr-3"></i> View Basket
+              </a>
+              <a class="dropdown-item d-flex align-items-center py-2" routerLink="/orders">
+                <i class="fa fa-history mr-3"></i> View Orders
+              </a>
+              <div class="divider dropdown-divider"></div>
+              <a class="dropdown-item d-flex align-items-center py-2" (click)="onSignOut()">
+                <i class="fa fa-sign-out mr-3"></i> Sign Out
+              </a>
+            </div>
+          </div>
+        </ng-container>
     </div>
   </div>

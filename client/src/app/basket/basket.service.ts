@@ -9,7 +9,6 @@ import { IBasketItem } from './../shared/models/basketItem';
 import { IBasketTotal } from '../shared/models/basketTotal';
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -44,6 +43,24 @@ export class BasketService {
     this.setBasket(basket);
   }
 
+  incrementBasketItemQuantity(item: IBasketItem){
+    const basket = this.getCurrentBasketValue();
+    const index = basket.items.findIndex(x => x.id === item.id);
+    basket.items[index].quantity++;
+    this.setBasket(basket);
+  }
+
+  decrementBasketItemQuantity(item: IBasketItem){
+    const basket = this.getCurrentBasketValue();
+    const index = basket.items.findIndex(x => x.id === item.id);
+    if (basket.items[index].quantity > 1) {
+      basket.items[index].quantity--;
+      this.setBasket(basket);
+    } else {
+      this.removeItemFromBasket(item);
+    }
+  }
+
   private updateOrAddItem(items: IBasketItem[], itemToBasket: IBasketItem, quantity: number): IBasketItem[] {
     const index = items.findIndex(i => i.id === itemToBasket.id);
     if (index === -1) {
@@ -76,14 +93,38 @@ export class BasketService {
 
   setBasket(basket: IBasket){
     return this.http.post(this.baseUrl + 'basket', basket)
-          .subscribe((response: IBasket) => {
-              this.basketSource.next(response);
-              //console.log(response);
-              this.calculateBasketTotal(); 
-          },
-            error => {
-              console.log(error); 
-          })
+        .subscribe((response: IBasket) => {
+            this.basketSource.next(response);
+            //console.log(response);
+            this.calculateBasketTotal(); 
+        },
+          error => {
+            console.log(error); 
+        });
+  }
+
+  removeItemFromBasket(item: IBasketItem){
+    const basket = this.getCurrentBasketValue();
+    if (basket.items.some(x => x.id === item.id)) {
+      basket.items = basket.items.filter(i => i.id !== item.id);
+      if (basket.items.length > 0) {
+        this.setBasket(basket);
+      }else{
+        this.removeBasket(basket)
+      }
+    }
+  }
+
+  removeBasket(basket: IBasket) {
+    return this.http.delete(this.baseUrl + 'basket?id=' + basket.id)
+      .subscribe(
+        () => {
+          this.basketSource.next(null);
+          this.basketTotalSource.next(null);
+          localStorage.removeItem('basket_id');
+        },
+        error => console.log(error)
+      );
   }
 
   private calculateBasketTotal(){

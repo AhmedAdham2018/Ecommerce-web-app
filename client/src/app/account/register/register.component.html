@@ -1,0 +1,30 @@
+<div class="d-flex justify-content-center mt-5">
+    <div class="col-4">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="text-center mb-4">
+              <h1 class="h3 mb-3 font-weight-normal">Please register by email</h1>
+            </div>
+            <app-text-input
+                 [label]="'Name'"
+                 formControlName="displayName">
+            </app-text-input>
+            <app-text-input
+                [label]="'Email'"
+                formControlName="email">
+            </app-text-input>
+            <app-text-input
+                [type]="'password'"
+                [label]="'Password'"
+                formControlName="password">
+            </app-text-input>
+            <ul class="text-danger list-unstyled" *ngIf="errors">
+                <li *ngFor="let error of errors">
+                    {{error}}
+                </li>
+            </ul>
+            <button class="btn btn-lg btn-warning btn-block" [disabled]="registerForm.invalid" type="submit">Register</button>
+            <p class="mt-5 mb-3 text-muted text-center">© 2021</p>
+          </form>
+    </div>
+</div>
+
